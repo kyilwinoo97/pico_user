@@ -29,6 +29,6 @@ class PicoApp extends StatelessWidget {
       ),
     );
   }
-  String get initialRoute => Routes.home;
+  String get initialRoute => Routes.nav;
 
 }

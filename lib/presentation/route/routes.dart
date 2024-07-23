@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pico_user/presentation/bottom_nav/bottom_nav_widget.dart';
+import 'package:pico_user/presentation/shopping_cart/shopping_cart_page.dart';
 import '../home/home_page.dart';
 import '../utils/extensions/extensions.dart';
 import 'route_transitions.dart';
@@ -7,9 +9,13 @@ class RouteGen {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final arguments = settings.arguments;
     switch (settings.name) {
+      case Routes.nav:
+        return _buildRoute(const BottomNavWidget(),settings: settings);
+
       case Routes.home:
         return _buildRoute(const HomePage(), settings: settings);
-
+      case Routes.cart:
+        return _buildRoute(const ShoppingCartPage(),settings: settings);
       default:
         return _buildRoute(const ErrorView(), settings: settings);
     }
@@ -24,7 +30,9 @@ class RouteGen {
 }
 
 class Routes {
+  static const nav = "/nav";
   static const home = "/";
+  static const cart = "/cart";
 }
 
 class ErrorView extends StatelessWidget {

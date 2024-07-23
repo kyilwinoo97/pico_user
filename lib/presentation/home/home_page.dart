@@ -1,5 +1,6 @@
-import 'dart:ffi';
 import 'dart:math';
+
+import 'package:badges/badges.dart' as badges;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:layout/layout.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
+import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 import 'package:pico_user/presentation/utils/extensions/widget_ex.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,7 +21,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
   final _key = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -41,24 +42,33 @@ class _HomePageState extends State<HomePage> {
                     )),
                 IconButton(
                     onPressed: () {},
-                    icon: const Icon(
-                      Icons.shopping_cart,
-                      color: Colors.black,
-                    ))
+                    icon: badges.Badge(
+                      position: badges.BadgePosition.topEnd(),
+                      showBadge: false,
+                      badgeStyle: const badges.BadgeStyle(
+                          padding: EdgeInsets.all(5),
+                          badgeColor: Colors.green
+                      ),
+                      badgeContent: const Text('2',style: TextStyle(color: Colors.white,fontSize: 12.0),),
+                      child: const Icon(Icons.shopping_cart_outlined,size: 26.0,)
+                    )
+                ),
+                const SizedBox(width: 8,)
               ],
             ),
+
             body: ListView(
               key: _key,
               controller: _scrollController,
               physics: const ClampingScrollPhysics(),
               scrollDirection: Axis.vertical,
-              children: const [
-                SizedBox(height: 180, child: BannerWidget()),
+              children:  [
+                const SizedBox(height: 180, child: BannerWidget()),
                 Text(
                   "Popular Items",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: context.bodyLarge,
                 ),
-                SizedBox(
+               const SizedBox(
                     child: ItemPage()),
               ],
             )));
@@ -143,9 +153,9 @@ class SingleItemWidget extends StatelessWidget {
   SingleItemWidget(this.index,{super.key});
   @override
   Widget build(BuildContext context) {
-    var random = Random().nextInt(14);
+    var random = Random().nextInt(11);
     return SizedBox(
-      height: index <= random ? 230 : 200 ,
+      height: index == random ? 250 : 200 ,
       child: Column(
         children: [
           Image.asset(
