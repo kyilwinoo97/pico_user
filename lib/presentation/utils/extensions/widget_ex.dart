@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 extension WidgetEx on Widget {
@@ -85,6 +86,29 @@ extension WidgetEx on Widget {
     return SingleChildScrollView(
       physics: physics,
       child: this,
+    );
+  }
+  Widget debugWidget(){
+    if(kDebugMode){
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black45),
+        ),
+        child: this,
+      );
+    }else{
+      return this;
+    }
+
+  }
+  Widget addRoundCornerWidget(){
+    return Container(
+      margin: const EdgeInsets.all(4.0),
+    decoration: BoxDecoration(
+    color: Colors.white,
+    border: Border.all(color: Colors.transparent),
+    borderRadius: const BorderRadius.all(Radius.circular(8))),
+    child: this,
     );
   }
 
@@ -193,4 +217,6 @@ extension WidgetListEx on List<Widget> {
       children: this,
     );
   }
+
 }
+

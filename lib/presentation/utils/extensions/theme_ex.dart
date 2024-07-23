@@ -13,7 +13,7 @@ extension ThemeEx on BuildContext {
       fontFamily: ksFontFamily,
       appBarTheme: appBarTheme(),
       useMaterial3: true,
-      scaffoldBackgroundColor: kPrimary,
+      scaffoldBackgroundColor: kGrey300,
       textTheme: textTheme().apply(
         bodyColor: kBlack,
         displayColor: kBlack,

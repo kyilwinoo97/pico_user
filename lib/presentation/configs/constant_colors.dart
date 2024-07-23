@@ -18,6 +18,7 @@ final Color kGrey50 = Colors.grey.shade50;
 final Color kGrey100 = Colors.grey.shade100;
 final Color kGrey300 = Colors.grey.shade300;
 final Color kGrey500 = Colors.grey.shade500;
+final Color kGrey200 = Colors.grey.shade200;
 const Color kGrey = Colors.grey;
 final Color kBlue50 = Colors.blue.shade50;
 const Color kYellow = Colors.yellow;
