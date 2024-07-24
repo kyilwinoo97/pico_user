@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/home/home_page.dart';
+import 'package:pico_user/presentation/inbox/inbox_page.dart';
 import 'package:pico_user/presentation/shopping_cart/shopping_cart_page.dart';
 import 'package:badges/badges.dart' as badges;
 
@@ -24,7 +25,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
         backgroundColor: kSecondary,
         icon: Icon(Icons.favorite_border),
         activeIcon: Icon(Icons.favorite),
-        label: "Favorite"),
+        label: "Lov"),
     BottomNavigationBarItem(
         backgroundColor: kSecondary,
         icon: badges.Badge(
@@ -55,13 +56,13 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
     BottomNavigationBarItem(
         backgroundColor: kSecondary,
         icon: const Icon(Icons.account_circle_outlined),
-        activeIcon: Icon(Icons.account_circle),
+        activeIcon: const Icon(Icons.account_circle),
         label: "Profile"),
   ];
   var pages = [
     const HomePage(),
     const ShoppingCartPage(),
-    const HomePage(),
+    const InboxPage(),
     const HomePage(),
   ];
 

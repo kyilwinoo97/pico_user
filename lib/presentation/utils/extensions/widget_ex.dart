@@ -101,13 +101,15 @@ extension WidgetEx on Widget {
     }
 
   }
-  Widget addRoundCornerWidget(){
+  Widget addRoundCornerWidget({required EdgeInsetsGeometry margin,
+    required BorderRadiusGeometry borderRadius,
+    Color color=Colors.white}){
     return Container(
-      margin: const EdgeInsets.all(4.0),
+      margin: margin,
     decoration: BoxDecoration(
-    color: Colors.white,
+    color: color,
     border: Border.all(color: Colors.transparent),
-    borderRadius: const BorderRadius.all(Radius.circular(8))),
+    borderRadius: borderRadius),
     child: this,
     );
   }

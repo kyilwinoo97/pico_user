@@ -1,15 +1,9 @@
 import 'dart:math';
-
 import 'package:badges/badges.dart' as badges;
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:layout/layout.dart';
-import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
-import 'package:pico_user/presentation/utils/extensions/widget_ex.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                           badgeColor: Colors.green
                       ),
                       badgeContent: const Text('2',style: TextStyle(color: Colors.white,fontSize: 12.0),),
-                      child: const Icon(Icons.shopping_cart_outlined,size: 26.0,)
+                      child: const Icon(Icons.shopping_cart_outlined,size: 26.0,color: Colors.black,)
                     )
                 ),
                 const SizedBox(width: 8,)
@@ -110,7 +104,7 @@ class BannerItem extends StatelessWidget {
         ).addPadding(edgeInsets: EdgeInsets.symmetric(horizontal: 6.0)),
         Image.asset("assets/img/medical_team.png")
       ],
-    ).addRoundCornerWidget();
+    ).addRoundCornerWidget(margin: const EdgeInsets.all(4.0),borderRadius: const BorderRadius.all(Radius.circular(8)));
   }
 }
 
@@ -166,7 +160,7 @@ class SingleItemWidget extends StatelessWidget {
           const Text("100.0 \$"),
           const Text("Details of item")
         ],
-      ).addRoundCornerWidget(),
+      ).addRoundCornerWidget(margin: const EdgeInsets.all(4.0),borderRadius: const BorderRadius.all(Radius.circular(8))),
     );
   }
 }
