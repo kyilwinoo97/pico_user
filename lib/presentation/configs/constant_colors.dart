@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 
-final Color kPrimary = '#F4F4EF'.toColor();
-final Color kSecondary = '#C7D3B6'.toColor();
+final Color kPrimary = '#4CAF50'.toColor();
+final Color kSecondary = '#757575'.toColor();
+final Color kPrimaryDark = '#388E3C'.toColor();
+final Color kAccent = '#607D8B'.toColor();
 final Color kPrimaryMedium = '#fdffa5'.toColor();
 final Color kCoffee = '#6f4e37'.toColor();
 const Color kTransparent = Colors.transparent;

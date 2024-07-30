@@ -13,7 +13,7 @@ extension ThemeEx on BuildContext {
       fontFamily: ksFontFamily,
       appBarTheme: appBarTheme(),
       useMaterial3: true,
-      scaffoldBackgroundColor: kGrey300,
+      scaffoldBackgroundColor: kGrey100,
       textTheme: textTheme().apply(
         bodyColor: kBlack,
         displayColor: kBlack,
@@ -74,21 +74,30 @@ extension ThemeEx on BuildContext {
         fontWeight: bold,
       );
   TextStyle get titleLarge => const TextStyle(
-        fontSize: s42,
-        fontWeight: bold,
-      );
-  TextStyle get titleMedium => const TextStyle(
         fontSize: s38,
         fontWeight: bold,
       );
-  TextStyle get titleSmall => const TextStyle(
+  TextStyle get titleMedium => const TextStyle(
         fontSize: s32,
         fontWeight: bold,
       );
+  TextStyle get titleSmall => const TextStyle(
+        fontSize: s24,
+        fontWeight: bold,
+      );
+  TextStyle get titleExtraSmall => const TextStyle(
+    fontSize: s18,
+    fontWeight: bold,
+  );
   TextStyle get labelLarge => const TextStyle(
         fontSize: s26,
         fontWeight: bold,
       );
+  TextStyle get labelMedium => const TextStyle(
+    fontSize: s14,
+    fontWeight: medium,
+    color: kGrey
+  );
   TextStyle get bodyLarge => const TextStyle(
         fontSize: s18,
         fontWeight: medium,
@@ -101,6 +110,8 @@ extension ThemeEx on BuildContext {
         fontSize: s12,
         fontWeight: medium,
       );
+
+
 
   TextSelectionThemeData textSelectionTheme() {
     return TextSelectionThemeData(
@@ -125,10 +136,8 @@ extension ThemeEx on BuildContext {
       onSecondary: kSecondary,
       error: kRed,
       onError: kRed100,
-      background: kWhite,
-      onBackground: kWhite,
-      surface: kGrey100,
-      onSurface: kGrey100,
+      surface: kWhite,
+      onSurface: kWhite,
     );
   }
 }

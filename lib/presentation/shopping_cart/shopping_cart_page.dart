@@ -21,7 +21,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         title: const Text("My Lov"),
       ),
       body: const SizedBox(
-          child: ItemPage()),
+          child: BestSellingItemWidget()),
     );
   }
 }

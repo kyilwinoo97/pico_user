@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 import 'package:pico_user/presentation/utils/extensions/widget_ex.dart';
 
@@ -40,7 +41,7 @@ class InboxItem extends StatelessWidget{
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(120.0),
-          child: Image.asset("assets/img/amazon.png",height: 45,),
+          child: Image.asset("$basePath/amazon.png",height: 45,),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

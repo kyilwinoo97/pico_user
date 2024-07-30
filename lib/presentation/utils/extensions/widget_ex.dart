@@ -88,42 +88,61 @@ extension WidgetEx on Widget {
       child: this,
     );
   }
-  Widget debugWidget(){
-    if(kDebugMode){
+
+  Widget debugWidget() {
+    if (kDebugMode) {
       return Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black45),
         ),
         child: this,
       );
-    }else{
+    } else {
       return this;
     }
-
   }
-  Widget addRoundCornerWidget({required EdgeInsetsGeometry margin,
-    required BorderRadiusGeometry borderRadius,
-    Color color=Colors.white}){
+
+  Widget addRoundCornerWidget(
+      {required EdgeInsetsGeometry margin,
+      required BorderRadiusGeometry borderRadius,
+      Color color = Colors.white}) {
     return Container(
       margin: margin,
-    decoration: BoxDecoration(
-    color: color,
-    border: Border.all(color: Colors.transparent),
-    borderRadius: borderRadius),
-    child: this,
+      decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: Colors.transparent),
+          borderRadius: borderRadius),
+      child: this,
     );
   }
 
-  // Widget addVisibilityDetector({
-  //   Key? key,
-  //   required Function(VisibilityInfo) onDetectVisibility,
-  // }) {
-  //   return VisibilityDetector(
-  //     key: key ?? UniqueKey(),
-  //     onVisibilityChanged: onDetectVisibility,
-  //     child: this,
-  //   );
-  // }
+  Widget addLeftRoundCornerWidget(
+      {required EdgeInsetsGeometry margin,
+      required BorderRadiusGeometry borderRadius,
+      Color color = Colors.white}) {
+    return Container(
+      margin: margin,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20), bottomLeft: Radius.circular(20)),
+        border: Border.all(
+          color: Colors.transparent,
+        ),
+      ),
+      child: this,
+    );
+  }
+
+// Widget addVisibilityDetector({
+//   Key? key,
+//   required Function(VisibilityInfo) onDetectVisibility,
+// }) {
+//   return VisibilityDetector(
+//     key: key ?? UniqueKey(),
+//     onVisibilityChanged: onDetectVisibility,
+//     child: this,
+//   );
+// }
 }
 
 extension WidgetListEx on List<Widget> {
@@ -219,6 +238,4 @@ extension WidgetListEx on List<Widget> {
       children: this,
     );
   }
-
 }
-

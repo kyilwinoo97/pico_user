@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
+import 'package:pico_user/presentation/configs/constant_colors.dart';
 import 'package:pico_user/presentation/home/home_page.dart';
 import 'package:pico_user/presentation/inbox/inbox_page.dart';
 import 'package:pico_user/presentation/shopping_cart/shopping_cart_page.dart';
 import 'package:badges/badges.dart' as badges;
+
+import 'nav_bar.dart';
 
 class BottomNavWidget extends StatefulWidget {
   const BottomNavWidget({super.key});
@@ -17,17 +20,17 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
 
   final navItem = [
     BottomNavigationBarItem(
-        backgroundColor: kSecondary,
+        backgroundColor: kGrey100,
         icon: Icon(Icons.home_outlined),
         activeIcon: Icon(Icons.home),
         label: "Home"),
     BottomNavigationBarItem(
-        backgroundColor: kSecondary,
+        backgroundColor: kGrey100,
         icon: Icon(Icons.favorite_border),
         activeIcon: Icon(Icons.favorite),
         label: "Lov"),
     BottomNavigationBarItem(
-        backgroundColor: kSecondary,
+        backgroundColor: kGrey100,
         icon: badges.Badge(
             position: badges.BadgePosition.topEnd(),
             showBadge: true,
@@ -54,7 +57,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
             )),
         label: "Inbox"),
     BottomNavigationBarItem(
-        backgroundColor: kSecondary,
+        backgroundColor: kGrey100,
         icon: const Icon(Icons.account_circle_outlined),
         activeIcon: const Icon(Icons.account_circle),
         label: "Profile"),
@@ -69,17 +72,30 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: navbarIndex,
-        type: BottomNavigationBarType.shifting,
-        backgroundColor: kSecondary,
-        selectedItemColor: kBlack,
-        selectedFontSize: 12,
-        unselectedItemColor: kGrey500,
-        items: navItem,
+      bottomNavigationBar: NavBar(
+        pageIndex: navbarIndex,
         onTap: (index) {
-          _setSelectedItemIndex(index);
+          if (index == navbarIndex) {
+            // items[index]
+            //     .navKey
+            //     .currentState
+            //     ?.popUntil((route) => route.isFirst);
+          } else {
+            setState(() {
+              navbarIndex = index;
+            });
+          }
         },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){},
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          side:  BorderSide(width: 2,color: kPrimary),
+          borderRadius: BorderRadius.circular(30)
+        ),
+        child: const Icon(Icons.shopping_cart,color: kWhite,),
       ),
       body: pages[navbarIndex],
     );

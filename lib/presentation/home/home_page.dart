@@ -1,9 +1,16 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:layout/layout.dart';
+import 'package:pico_user/presentation/configs/configs.dart';
+import 'package:pico_user/presentation/configs/constant_colors.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
+import 'package:pico_user/widgets/right_curve_container.dart';
+
+import '../configs/constant_assets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,57 +22,117 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
   final _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Layout(
         child: Scaffold(
-            appBar: AppBar(
-              title: const Text("Pico User"),
-              titleSpacing: 20.0,
-              leading: const Icon(
-                Icons.location_on_outlined,
-                color: Colors.black,
-              ),
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.search,
-                      color: Colors.black,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: badges.Badge(
-                      position: badges.BadgePosition.topEnd(),
-                      showBadge: false,
-                      badgeStyle: const badges.BadgeStyle(
-                          padding: EdgeInsets.all(5),
-                          badgeColor: Colors.green
-                      ),
-                      badgeContent: const Text('2',style: TextStyle(color: Colors.white,fontSize: 12.0),),
-                      child: const Icon(Icons.shopping_cart_outlined,size: 26.0,color: Colors.black,)
-                    )
-                ),
-                const SizedBox(width: 8,)
-              ],
-            ),
+            body: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: ListView(
+        key: _key,
+        controller: _scrollController,
+        physics: const ClampingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        children: const [
+          TopBarWidget(),
+          SearchWidget(),
+          SizedBox(height: 180, child: BannerWidget()),
+          CategoryWidget(),
+          SizedBox(child: BestSellingItemWidget()),
+        ],
+      ),
+    )));
+  }
+}
 
-            body: ListView(
-              key: _key,
-              controller: _scrollController,
-              physics: const ClampingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              children:  [
-                const SizedBox(height: 180, child: BannerWidget()),
+class TopBarWidget extends StatelessWidget {
+  const TopBarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(120.0),
+              child: Image.asset(
+                "$basePath/girl.png",
+                height: 35,
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
                 Text(
-                  "Popular Items",
-                  style: context.bodyLarge,
+                  "Good morning",
+                  style: context.labelMedium,
                 ),
-               const SizedBox(
-                    child: ItemPage()),
+                Text(
+                  "Ryan Aung",
+                  style: context.titleExtraSmall,
+                )
               ],
-            )));
+            ).addPadding(edgeInsets: const EdgeInsets.only(left: s18)),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Icon(
+              Icons.location_on,
+              color: kPrimary,
+              size: 24,
+            ),
+            const Text(
+              "My Office",
+              style: TextStyle(color: kBlack, fontSize: 14, fontWeight: bold),
+            ),
+            const Icon(
+              Icons.keyboard_arrow_down,
+              color: kGrey,
+              size: 22,
+            )
+          ],
+        )
+            .addPadding(
+                edgeInsets:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 12))
+            .addRoundCornerWidget(
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                borderRadius: BorderRadius.circular(40))
+      ],
+    );
+  }
+}
+
+class SearchWidget extends StatelessWidget {
+  const SearchWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          Icons.search_sharp,
+          color: kPrimary,
+          size: 24,
+        ),
+        Text(
+          "Search category",
+          style: context.labelMedium,
+        ).addPadding(edgeInsets: const EdgeInsets.only(left: 4))
+      ],
+    )
+        .addPadding(
+            edgeInsets: const EdgeInsets.symmetric(vertical: 8, horizontal: 6))
+        .addRoundCornerWidget(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            borderRadius: BorderRadius.circular(20));
   }
 }
 
@@ -90,77 +157,236 @@ class BannerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Something").addPadding(
-                edgeInsets: const EdgeInsets.symmetric(vertical: 10)),
-            Text("Another")
-          ],
-        ).addPadding(edgeInsets: EdgeInsets.symmetric(horizontal: 6.0)),
-        Image.asset("assets/img/medical_team.png")
-      ],
-    ).addRoundCornerWidget(margin: const EdgeInsets.all(4.0),borderRadius: const BorderRadius.all(Radius.circular(8)));
+    var size = MediaQuery.of(context).size;
+    return SizedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          CustomPaint(
+            painter: LeftCurveContainer(),
+            child: Image.asset(
+              "$vegetable/banner.png",
+              height: 180,
+              width: size.width * 0.43,
+            ),
+          ),
+          CustomPaint(
+            painter: RightCurveContainer(),
+            child: SizedBox(
+              width: size.width * 0.5,
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Special Offers",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    "Get 20%",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                    ),
+                  ),
+                  ButtonWidget(),
+                ],
+              ).addPadding(edgeInsets: const EdgeInsets.only(left: 45)),
+            ),
+          ),
+        ],
+      ),
+    ).addPadding(edgeInsets: const EdgeInsets.only(right: 10));
   }
 }
 
-class ItemPage extends StatelessWidget {
-  const ItemPage({super.key});
+class ButtonWidget extends StatelessWidget {
+  const ButtonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(
+          "Grab Offer",
+          style: TextStyle(color: kPrimary, fontSize: 16),
+        ),
+        Icon(
+          Icons.arrow_forward_ios_sharp,
+          color: kPrimary,
+          size: 14,
+        )
+      ],
+    )
+        .addPadding(
+            edgeInsets: const EdgeInsets.symmetric(vertical: 6, horizontal: 4))
+        .addRoundCornerWidget(
+            margin: const EdgeInsets.only(right: 26.0),
+            borderRadius: const BorderRadius.all(Radius.circular(20)));
+  }
+}
+
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Categories 😻",
+              style: context.titleExtraSmall,
+            ),
+            Text(
+              "See all",
+              style: TextStyle(
+                  color: kPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+            )
+          ],
+        ).addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 8)),
+        SizedBox(
+            height: 120,
+            child: ListView.builder(
+              itemCount: 4,
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return CategoryItem(index);
+              },
+            )),
+      ],
+    );
+  }
+}
+
+class CategoryItem extends StatelessWidget {
+  int index;
+
+  CategoryItem(this.index, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var imgPath = categry_image[index];
+    var txt = categories[index];
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Container(
+          height: 85,
+          decoration: BoxDecoration(
+            color: kGrey300,
+            shape: BoxShape.circle,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(18),
+            child: Image.asset(
+              imgPath,
+            ),
+          ),
+        ),
+        Text(
+          txt,
+          style: const TextStyle(color: kBlack, fontSize: 16),
+        )
+      ],
+    ).addPadding(edgeInsets: const EdgeInsets.only(right: 10));
+  }
+}
+
+class BestSellingItemWidget extends StatelessWidget {
+  const BestSellingItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     var orientation = MediaQuery.of(context).orientation;
-
-    return MasonryGridView.count(
-      crossAxisCount: (orientation == Orientation.portrait)? 2: 3,
-      mainAxisSpacing: 1,
-      crossAxisSpacing: 1,
-      itemCount: 10,
-      shrinkWrap: true,
-      physics:  const ClampingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return SingleItemWidget(index);
-      },
+    var size = MediaQuery.of(context).size;
+    final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
+    final double itemWidth = size.width / 1.5;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "BestSelling 🔥",
+              style: context.titleExtraSmall,
+            ),
+            Text(
+              "See all",
+              style: TextStyle(
+                  color: kPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+            )
+          ],
+        ).addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 8)),
+        GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+              childAspectRatio: (itemWidth / itemHeight)),
+          itemCount: best_selling_items.length,
+          physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return BestSellingItem(index);
+          },
+        )
+      ],
     );
-    // return GridView.builder(
-    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    //     crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
-    //     mainAxisSpacing: 1.0,
-    //     crossAxisSpacing: 1.0,
-    //   ),
-    //   itemCount: 10,
-    //   physics: const ClampingScrollPhysics(),
-    //   shrinkWrap: true,
-    //   itemBuilder: (context, index) {
-    //     return const SingleItemWidget();
-    //   },
-    // );
   }
 }
 
-class SingleItemWidget extends StatelessWidget {
+class BestSellingItem extends StatelessWidget {
   int index;
-  SingleItemWidget(this.index,{super.key});
+  BestSellingItem(this.index, {super.key});
+
   @override
   Widget build(BuildContext context) {
-    var random = Random().nextInt(11);
-    return SizedBox(
-      height: index == random ? 250 : 200 ,
-      child: Column(
-        children: [
-          Image.asset(
-            "assets/img/medical_team.png",
-            fit: BoxFit.contain,
-            height: 140,
-          ),
-          const Text("100.0 \$"),
-          const Text("Details of item")
-        ],
-      ).addRoundCornerWidget(margin: const EdgeInsets.all(4.0),borderRadius: const BorderRadius.all(Radius.circular(8))),
-    );
+    var txt = best_selling_items[index];
+    var imgPath = item_img[index];
+    return Column(
+      children: [
+        Image.asset(imgPath,height: 170,),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(txt,style: context.titleExtraSmall,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("1kg, 2000 MMK ",style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold
+                    ),),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: kPrimary,
+                          borderRadius: BorderRadius.circular(30)
+                      ),
+                      child: const Icon(Icons.add,color: Colors.white,size: 30,),
+                    )
+                  ],
+                )
+
+              ],
+            ).addPadding(edgeInsets: const EdgeInsets.symmetric(horizontal: 8)),
+      ],
+    ).addRoundCornerWidget(
+        margin: const EdgeInsets.all(2.0),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        color: kGrey300);
   }
 }

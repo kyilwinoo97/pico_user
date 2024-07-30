@@ -18,6 +18,9 @@ class PicoApp extends StatelessWidget {
   const PicoApp({super.key});
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+        statusBarColor: kGrey100
+    ));
     return Layout(
       child:  MaterialApp(
           title: appName,
