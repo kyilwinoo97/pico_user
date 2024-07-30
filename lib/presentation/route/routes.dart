@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pico_user/presentation/bottom_nav/bottom_nav_widget.dart';
+import 'package:pico_user/presentation/detail/item_detail.dart';
 import '../all_item/all_item_page.dart';
 import '../home/home_page.dart';
 import '../utils/extensions/extensions.dart';
@@ -16,6 +17,8 @@ class RouteGen {
         return _buildRoute(const HomePage(), settings: settings);
       case Routes.cart:
         return _buildRoute(const AllItemPage(),settings: settings);
+      case Routes.detail:
+        return _buildRoute(const ItemDetail(),settings: settings);
       default:
         return _buildRoute(const ErrorView(), settings: settings);
     }
@@ -33,6 +36,7 @@ class Routes {
   static const nav = "/nav";
   static const home = "/";
   static const cart = "/cart";
+  static const detail = "/detail";
 }
 
 class ErrorView extends StatelessWidget {

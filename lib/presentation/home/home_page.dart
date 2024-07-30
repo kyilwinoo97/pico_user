@@ -1,16 +1,14 @@
 import 'dart:math';
-import 'dart:ui';
 import 'package:badges/badges.dart' as badges;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:layout/layout.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
-import 'package:pico_user/presentation/configs/constant_colors.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
-import 'package:pico_user/widgets/right_curve_container.dart';
+import 'package:pico_user/widgets/custom_paint.dart';
 
-import '../configs/constant_assets.dart';
+import '../route/routes.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -313,36 +311,44 @@ class BestSellingItemWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 1.5;
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "BestSelling 🔥",
-              style: context.titleExtraSmall,
-            ),
-            Text(
-              "See all",
-              style: TextStyle(
-                  color: kPrimary, fontSize: 18, fontWeight: FontWeight.bold),
-            )
-          ],
-        ).addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 8)),
-        GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
-              childAspectRatio: (itemWidth / itemHeight)),
-          itemCount: best_selling_items.length,
-          physics: const ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return BestSellingItem(index);
-          },
-        )
-      ],
+    return InkWell(
+      onTap: (){
+        Navigator.pushNamed(
+          context,
+          Routes.detail,
+        );
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "BestSelling 🔥",
+                style: context.titleExtraSmall,
+              ),
+              Text(
+                "See all",
+                style: TextStyle(
+                    color: kPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+              )
+            ],
+          ).addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 8)),
+          GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
+                mainAxisSpacing: 4.0,
+                crossAxisSpacing: 4.0,
+                childAspectRatio: (itemWidth / itemHeight)),
+            itemCount: best_selling_items.length,
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return BestSellingItem(index);
+            },
+          )
+        ],
+      ),
     );
   }
 }
@@ -371,13 +377,20 @@ class BestSellingItem extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.bold
                     ),),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: kPrimary,
-                          borderRadius: BorderRadius.circular(30)
-                      ),
-                      child: const Icon(Icons.add,color: Colors.white,size: 30,),
-                    )
+                    SizedBox(
+                      width: 34,
+                      height: 34,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.add, color: kWhite,
+                          size: 16,),
+                        onPressed: () {},
+                      )
+                          .addRoundCornerWidget(
+                          margin: EdgeInsets.zero,
+                          borderRadius: BorderRadius.circular(40),
+                          color: kPrimary),
+                    ),
                   ],
                 )
 

@@ -46,3 +46,22 @@ class LeftCurveContainer extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
+class BottomCurveContainer extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = kGrey300
+      ..strokeWidth = 3.0
+      ..style = PaintingStyle.fill;
+    Path path = Path()
+      ..moveTo(0.0, 0.0)
+      ..lineTo(0.0, size.height)
+      ..quadraticBezierTo(size.width/2, size.height + 60, size.width , size.height)
+      ..lineTo(size.width, 0.0)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
