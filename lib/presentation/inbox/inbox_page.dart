@@ -17,9 +17,6 @@ class _InboxPageState extends State<InboxPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("Inbox"),),
       body: ListView.builder(
         itemCount: 20,
           physics:const ClampingScrollPhysics(),
@@ -41,7 +38,7 @@ class InboxItem extends StatelessWidget{
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(120.0),
-          child: Image.asset("$basePath/amazon.png",height: 45,),
+          child: Image.asset("$category/fruit.png",height: 45,),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,

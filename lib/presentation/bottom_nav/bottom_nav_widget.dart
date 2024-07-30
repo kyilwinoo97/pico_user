@@ -3,9 +3,9 @@ import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/configs/constant_colors.dart';
 import 'package:pico_user/presentation/home/home_page.dart';
 import 'package:pico_user/presentation/inbox/inbox_page.dart';
-import 'package:pico_user/presentation/shopping_cart/shopping_cart_page.dart';
 import 'package:badges/badges.dart' as badges;
 
+import '../all_item/all_item_page.dart';
 import 'nav_bar.dart';
 
 class BottomNavWidget extends StatefulWidget {
@@ -64,7 +64,7 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
   ];
   var pages = [
     const HomePage(),
-    const ShoppingCartPage(),
+    const AllItemPage(),
     const InboxPage(),
     const HomePage(),
   ];

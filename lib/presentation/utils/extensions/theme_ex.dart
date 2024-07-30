@@ -30,7 +30,7 @@ extension ThemeEx on BuildContext {
 
   AppBarTheme appBarTheme() {
     return AppBarTheme(
-      backgroundColor: kSecondary,
+      backgroundColor: kGrey100,
       elevation: s0,
       titleTextStyle: Theme.of(this).textTheme.labelLarge!.copyWith(
         fontWeight: FontWeight.w700,
