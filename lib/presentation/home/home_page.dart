@@ -364,7 +364,6 @@ class BestSellingItem extends StatelessWidget {
     return Column(
       children: [
         Image.asset(imgPath,height: 170,),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

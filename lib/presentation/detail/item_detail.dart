@@ -63,20 +63,40 @@ class _ItemDetailState extends State<ItemDetail> {
                               margin: EdgeInsets.zero,
                               borderRadius: BorderRadius.circular(40)),
                         ),
-                        SizedBox(
-                          width: 34,
-                          height: 34,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.search_sharp,
-                              color: kBlack,
-                              size: 16,
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 34,
+                              height: 34,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.share_rounded,
+                                  color: kBlack,
+                                  size: 16,
+                                ),
+                                onPressed: () {},
+                              ).addRoundCornerWidget(
+                                  margin: EdgeInsets.zero,
+                                  borderRadius: BorderRadius.circular(40)),
                             ),
-                            onPressed: () {},
-                          ).addRoundCornerWidget(
-                              margin: EdgeInsets.zero,
-                              borderRadius: BorderRadius.circular(40)),
-                        ),
+                            const SizedBox(width: 14,),
+                            SizedBox(
+                              width: 34,
+                              height: 34,
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.favorite_border,
+                                  color: kBlack,
+                                  size: 16,
+                                ),
+                                onPressed: () {},
+                              ).addRoundCornerWidget(
+                                  margin: EdgeInsets.zero,
+                                  borderRadius: BorderRadius.circular(40)),
+                            ),
+                          ],
+                        )
+
                       ],
                     ),
                   )
@@ -95,7 +115,7 @@ class _ItemDetailState extends State<ItemDetail> {
                     "Fresh Potato",
                     style: context.titleExtraSmall,
                   ),
-                  const CountWithButton(),
+                   CountWithButton(0),
                 ],
               ),
               const SizedBox(
@@ -140,7 +160,8 @@ class _ItemDetailState extends State<ItemDetail> {
 }
 
 class CountWithButton extends StatelessWidget {
-  const CountWithButton({super.key});
+  int quantity;
+   CountWithButton(this.quantity, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +186,7 @@ class CountWithButton extends StatelessWidget {
                 color: kGrey300),
           ),
           Text(
-            "4",
+            "$quantity",
             style: context.titleExtraSmall,
           ),
           SizedBox(

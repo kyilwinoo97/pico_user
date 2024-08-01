@@ -6,6 +6,7 @@ import 'package:pico_user/presentation/inbox/inbox_page.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../all_item/all_item_page.dart';
+import '../route/routes.dart';
 import 'nav_bar.dart';
 
 class BottomNavWidget extends StatefulWidget {
@@ -89,7 +90,12 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pushNamed(
+            context,
+            Routes.cart,
+          );
+        },
         elevation: 0,
         shape: RoundedRectangleBorder(
           side:  BorderSide(width: 2,color: kPrimary),
