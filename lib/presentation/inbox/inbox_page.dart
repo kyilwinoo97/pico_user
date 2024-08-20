@@ -17,6 +17,11 @@ class _InboxPageState extends State<InboxPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+    appBar: AppBar(
+        centerTitle: true,
+        leading: null,
+        title: Text("Message 📢",style: context.titleExtraSmall,),
+      ),
       body: ListView.builder(
         itemCount: 20,
           physics:const ClampingScrollPhysics(),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:layout/layout.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
+import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 
 import '../configs/constant_string.dart';
 import '../home/home_page.dart';
@@ -25,6 +26,11 @@ class _AllItemPageState extends State<AllItemPage> {
     final double itemWidth = size.width / 1.5;
     return Layout(
       child: Scaffold(
+      appBar: AppBar(
+          centerTitle: true,
+          leading: null,
+          title: Text("Favourite ❤️",style: context.titleExtraSmall,),
+        ),
         body: ListView(
           key: _key,
           controller: _scrollController,
