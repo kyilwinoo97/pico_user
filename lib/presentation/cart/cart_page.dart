@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pico_user/data/model/item.dart';
+import 'package:pico_user/presentation/cart/bloc/cart_bloc.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 
@@ -17,8 +20,13 @@ class CartPage extends StatefulWidget{
 
 class _CartPageState extends State<CartPage> {
   @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+  @override
   Widget build(BuildContext context) {
-    var cartItem = cart;
+    Map<String, List<Item>> cartItem;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,35 +42,74 @@ class _CartPageState extends State<CartPage> {
         ),
         title: Text("Cart 🛒",style: context.titleExtraSmall,),
       ),
-      body: Column(
-        children: [
-          ListView.builder(
-            itemCount: cartItem.length,
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemBuilder: (context, index) {
-              var data = cartItem[index];
-              return CartItem(data!);
-            },
-          )
-        ],
+      body: BlocBuilder<CartBloc,CartState>(
+        builder: (context,state){
+          if(state is Success){
+            cartItem = state.cart;
+            return  Column(
+              children: [
+                ListView.builder(
+                  itemCount: cartItem.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    var keys = cartItem.keys.toList();
+                    var data = cartItem[keys[index]];
+                    if(data != null && data.isNotEmpty){
+                      return CartItem(data);
+                    }
+                      return const SizedBox.shrink();
+
+                  },
+                )
+              ],
+            );
+          }else if (state is Loading){
+            return Center(child: CircularProgressIndicator(color: kPrimary,),);
+          }else if(state is Empty){
+            return Center(child: Text("Empty Item",style: TextStyle(
+              color: kPrimary
+            ),),);
+          }
+          return const Center(child: Text("Something went wrong",style: TextStyle(
+              color: Colors.red
+          ),),);;
+
+        },
       ),
       floatingActionButtonLocation:
       FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        height: 50,
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: kPrimary,
-            borderRadius: BorderRadius.circular(20)
-        ),
-        child: const Center(
-          child: Text('Checkout',
-            style: TextStyle(color: kWhite,fontSize: 16),),
-        ),
-      ),
+      floatingActionButton:
+    BlocBuilder<CartBloc,CartState>(
+    builder: (context,state){
+      if(state is Success){
+        return  InkWell(
+          onTap: (){},
+          child: Container(
+            height: 50,
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: kPrimary,
+                borderRadius: BorderRadius.circular(20)
+            ),
+            child: const Center(
+              child: Text('Checkout',
+                style: TextStyle(color: kWhite,fontSize: 16),),
+            ),
+          ),
+        );
+      }
+      return const SizedBox.shrink();
+    }
+    )
+
     );
+  }
+
+  void getData() {
+    BlocProvider.of<CartBloc>(context).add(GetCart());
+
   }
 }
 
@@ -72,7 +119,8 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var item = itemList.first;
+    debugPrint("item size ${itemList.length}");
+    Item item = itemList.first;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -91,7 +139,13 @@ class CartItem extends StatelessWidget {
               ],).addPadding(edgeInsets: const EdgeInsets.only(left: 4.0)),
           ],
         ),
-        CountWithButton(itemList.length),
+        CountWithButton(itemList.length,remove: (){
+          BlocProvider.of<CartBloc>(context).add(RemoveFromCart(item));
+        },
+          add: (){
+          BlocProvider.of<CartBloc>(context).add(AddToCart(item));
+
+        },),
       ],
     ).addPadding(edgeInsets: const EdgeInsets.symmetric(horizontal: 8));
   }

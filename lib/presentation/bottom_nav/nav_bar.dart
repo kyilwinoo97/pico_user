@@ -53,7 +53,7 @@ class NavBar extends StatelessWidget{
         onTap: onTap,
         child: Icon(
           isSelected ? selectedIcon : icon,
-          color: isSelected ? kBlack : kGrey300,
+          color: isSelected ? kPrimary : kGrey300,
         ),
       ),
     );

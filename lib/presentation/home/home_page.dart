@@ -1,14 +1,17 @@
 import 'dart:math';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:layout/layout.dart';
+import 'package:pico_user/data/model/cart.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 import 'package:pico_user/widgets/custom_paint.dart';
 
+import '../cart/bloc/cart_bloc.dart';
 import '../route/routes.dart';
-
+import 'package:pico_user/di/injection_container.dart' as di;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,28 +25,36 @@ class _HomePageState extends State<HomePage> {
   final _key = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Layout(
         child: Scaffold(
             body: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: ListView(
-        key: _key,
-        controller: _scrollController,
-        physics: const ClampingScrollPhysics(),
-        scrollDirection: Axis.vertical,
-        children: const [
-          TopBarWidget(),
-          SearchWidget(),
-          SizedBox(height: 180, child: BannerWidget()),
-          CategoryWidget(),
-          SizedBox(child: BestSellingItemWidget()),
-        ],
-      ),
-    )));
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: ListView(
+                key: _key,
+                controller: _scrollController,
+                physics: const ClampingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                children: const [
+                  TopBarWidget(),
+                  SearchWidget(),
+                  SizedBox(height: 180, child: BannerWidget()),
+                  CategoryWidget(),
+                  SizedBox(child: BestSellingItemWidget()),
+                ],
+              ),
+            )
+
+    ));
   }
 }
+
 
 class TopBarWidget extends StatelessWidget {
   const TopBarWidget({super.key});
@@ -311,8 +322,51 @@ class BestSellingItemWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
     final double itemWidth = size.width / 1.5;
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "BestSelling 🔥",
+              style: context.titleExtraSmall,
+            ),
+            Text(
+              "See all",
+              style: TextStyle(
+                  color: kPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+            )
+          ],
+        ).addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 8)),
+        GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
+              mainAxisSpacing: 4.0,
+              crossAxisSpacing: 4.0,
+              childAspectRatio: (itemWidth / itemHeight)),
+          itemCount: bestSellingItem.length,
+          physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return BestSellingItem(index);
+          },
+        )
+      ],
+    );
+  }
+}
+
+class BestSellingItem extends StatelessWidget {
+  int index;
+
+  BestSellingItem(this.index, {super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+    var item = bestSellingItem[index];
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(
           context,
           Routes.detail,
@@ -320,85 +374,53 @@ class BestSellingItemWidget extends StatelessWidget {
       },
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Image.asset(
+            item.imageUrl,
+            height: 170,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "BestSelling 🔥",
+                item.name,
                 style: context.titleExtraSmall,
               ),
-              Text(
-                "See all",
-                style: TextStyle(
-                    color: kPrimary, fontSize: 18, fontWeight: FontWeight.bold),
-              )
-            ],
-          ).addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 8)),
-          GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: (orientation == Orientation.portrait) ? 2 : 3,
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-                childAspectRatio: (itemWidth / itemHeight)),
-            itemCount: best_selling_items.length,
-            physics: const ClampingScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return BestSellingItem(index);
-            },
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class BestSellingItem extends StatelessWidget {
-  int index;
-  BestSellingItem(this.index, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var txt = best_selling_items[index];
-    var imgPath = item_img[index];
-    return Column(
-      children: [
-        Image.asset(imgPath,height: 170,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(txt,style: context.titleExtraSmall,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("1kg, 2000 MMK ",style: TextStyle(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${item.unit}, ${item.price} MMK ",
+                    style: const TextStyle(
                         color: Colors.red,
                         fontSize: 14,
-                        fontWeight: FontWeight.bold
-                    ),),
-                    SizedBox(
-                      width: 34,
-                      height: 34,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.add, color: kWhite,
-                          size: 16,),
-                        onPressed: () {},
-                      )
-                          .addRoundCornerWidget(
-                          margin: EdgeInsets.zero,
-                          borderRadius: BorderRadius.circular(40),
-                          color: kPrimary),
-                    ),
-                  ],
-                )
-
-              ],
-            ).addPadding(edgeInsets: const EdgeInsets.symmetric(horizontal: 8)),
-      ],
-    ).addRoundCornerWidget(
-        margin: const EdgeInsets.all(2.0),
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
-        color: kGrey300);
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: 34,
+                    height: 34,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.add,
+                        color: kWhite,
+                        size: 16,
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<CartBloc>(context).add(AddToCart(item));
+                      },
+                    ).addRoundCornerWidget(
+                        margin: EdgeInsets.zero,
+                        borderRadius: BorderRadius.circular(40),
+                        color: kPrimary),
+                  ),
+                ],
+              )
+            ],
+          ).addPadding(edgeInsets: const EdgeInsets.symmetric(horizontal: 8)),
+        ],
+      ).addRoundCornerWidget(
+          margin: const EdgeInsets.all(2.0),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          color: kGrey300),
+    );
   }
 }

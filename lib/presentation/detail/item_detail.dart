@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:layout/layout.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 import 'package:pico_user/widgets/custom_paint.dart';
 
+import '../cart/bloc/cart_bloc.dart';
 import '../configs/constant_assets.dart';
 
 class ItemDetail extends StatefulWidget {
@@ -36,7 +38,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 alignment: Alignment.center,
                 children: [
                   Image.asset(
-                    "$vegetable/potato.png",
+                    "$vegetable/red_pepper.png",
                     height: size.height * 0.45,
                     width: size.width,
                   ),
@@ -112,10 +114,17 @@ class _ItemDetailState extends State<ItemDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Fresh Potato",
+                    "Red Pepper",
                     style: context.titleExtraSmall,
                   ),
-                   CountWithButton(0),
+                  // CountWithButton(0,remove: (){
+                  //   BlocProvider.of<CartBloc>(context).add(RemoveFromCart(item));
+                  // },
+                  //   add: (){
+                  //     BlocProvider.of<CartBloc>(context).add(AddToCart(item));
+                  //
+                  //   },),
+                   CountWithButton(0,remove: (){},add: (){},),
                 ],
               ),
               const SizedBox(
@@ -132,7 +141,7 @@ class _ItemDetailState extends State<ItemDetail> {
                 height: 12,
               ),
               Text(
-                  "Potatoes are underground tubers that grow on the roots of the potato plant, Solanum tuberosum. This plant is from the nightshade family and related to tomatoes and tobacco",
+                  "The bell pepper is the fruit of plants in the Grossum Group of the species Capsicum annuum. Cultivars of the plant produce fruits in different colors, including red, yellow, orange, green, white, chocolate, candy cane striped, and purple.",
               style: context.labelMedium,
               textAlign: TextAlign.start,)
             ],
@@ -161,7 +170,10 @@ class _ItemDetailState extends State<ItemDetail> {
 
 class CountWithButton extends StatelessWidget {
   int quantity;
-   CountWithButton(this.quantity, {super.key});
+  VoidCallback  remove;
+  VoidCallback  add;
+
+   CountWithButton(this.quantity,{required this.remove,required this.add,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +191,7 @@ class CountWithButton extends StatelessWidget {
                 color: kBlack,
                 size: 16,
               ),
-              onPressed: () {},
+              onPressed: remove,
             ).addRoundCornerWidget(
                 margin: EdgeInsets.zero,
                 borderRadius: BorderRadius.circular(40),
@@ -198,7 +210,7 @@ class CountWithButton extends StatelessWidget {
                 color: kWhite,
                 size: 16,
               ),
-              onPressed: () {},
+              onPressed: add,
             ).addRoundCornerWidget(
                 margin: EdgeInsets.zero,
                 borderRadius: BorderRadius.circular(40),

@@ -37,7 +37,7 @@ class _AllItemPageState extends State<AllItemPage> {
                   mainAxisSpacing: 4.0,
                   crossAxisSpacing: 4.0,
                   childAspectRatio: (itemWidth / itemHeight)),
-              itemCount: best_selling_items.length,
+              itemCount: bestSellingItem.length,
               physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {

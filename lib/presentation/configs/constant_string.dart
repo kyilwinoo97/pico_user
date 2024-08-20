@@ -15,27 +15,16 @@ const List<String> categry_image = [
   "$category/meat.png"
 ];
 
-const List<String> best_selling_items = [
-  "Fresh Carrot",
-  "Eggplant",
-  "Arabic Ginger",
-  "Fresh Lettuce",
-  "Fresh Potato",
-  "Red Pepper",
-  "Fresh Tomatoes",
-  "Butternut",
-  "Broccoli"
-];
-const List<String> item_img = [
-  "$vegetable/carrot.png",
-  "$vegetable/eggplant.png",
-  "$vegetable/ginger.png",
-  "$vegetable/lettuce.png",
-  "$vegetable/potato.png",
-  "$vegetable/red_pepper.png",
-  "$vegetable/tomatoes.png",
-  "$vegetable/butternut.png",
-  "$vegetable/broccoli.png",
+List<Item> bestSellingItem = [
+  Item(0, 2000, "Fresh Carrot", "1Kg","$vegetable/carrot.png"),
+  Item(1, 3000, "Eggplant", "1Kg","$vegetable/eggplant.png"),
+  Item(3, 2500, "Arabic Ginger", "1Kg",  "$vegetable/ginger.png",),
+  Item(4, 3500, "Fresh Lettuce", "1Kg","$vegetable/lettuce.png"),
+  Item(5, 1700, "Fresh Potato", "1Kg","$vegetable/potato.png"),
+  Item(6, 2000, "Red Pepper", "1Kg","$vegetable/red_pepper.png"),
+  Item(7, 2000,  "Fresh Tomatoes", "1Kg","$vegetable/tomatoes.png"),
+  Item(8, 2000, "Butternut", "1Kg","$vegetable/butternut.png"),
+  Item(9, 2000, "Broccoli", "1Kg","$vegetable/broccoli.png"),
 ];
  
 List<Item> carrot = [
