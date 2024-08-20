@@ -3,6 +3,7 @@ import 'package:pico_user/presentation/bottom_nav/bottom_nav_widget.dart';
 import 'package:pico_user/presentation/cart/cart_page.dart';
 import 'package:pico_user/presentation/confirm_order/confirm_order.dart';
 import 'package:pico_user/presentation/detail/item_detail.dart';
+import 'package:pico_user/presentation/payment/select_payment.dart';
 import '../all_item/all_item_page.dart';
 import '../home/home_page.dart';
 import '../utils/extensions/extensions.dart';
@@ -24,6 +25,8 @@ class RouteGen {
         return _buildRoute( const CartPage(),settings: settings);
       case Routes.order:
         return _buildRoute( const ConfirmOrder(),settings: settings);
+      case Routes.payment:
+        return _buildRoute( SelectPayment(settings.arguments),settings: settings);
       default:
         return _buildRoute(const ErrorView(), settings: settings);
     }
@@ -44,6 +47,7 @@ class Routes {
   static const detail = "/detail";
   static const allItem = "/allItem";
   static const order = "/order";
+  static const payment = "/payment";
 }
 
 class ErrorView extends StatelessWidget {

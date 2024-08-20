@@ -6,6 +6,7 @@ import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 
 import '../cart/bloc/cart_bloc.dart';
 import '../configs/constant_colors.dart';
+import '../route/routes.dart';
 
 class ConfirmOrder extends StatefulWidget {
   const ConfirmOrder({super.key});
@@ -15,6 +16,12 @@ class ConfirmOrder extends StatefulWidget {
 }
 
 class _ConfirmOrderState extends State<ConfirmOrder> {
+  var subTotal = 0.0;
+
+  var total = 0.0;
+  static const serviceFee = 500;
+  static const deliverCharge = 1500;
+
   @override
   void initState() {
     super.initState();
@@ -62,6 +69,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                         var keys = cartItem.keys.toList();
                         var data = cartItem[keys[index]];
                         if (data != null && data.isNotEmpty) {
+                          subTotal += data.length * data.first.price;
                           return ConfirmOrderItem(data);
                         }
                         return const SizedBox.shrink();
@@ -73,7 +81,7 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
                         color: kGrey300),
                     Align(
                       alignment: Alignment.bottomCenter,
-                      child: TotalWidget(cartItem),
+                      child: totalWidget(context),
                     )
                   ],
                 ),
@@ -102,49 +110,31 @@ class _ConfirmOrderState extends State<ConfirmOrder> {
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton:
-            BlocBuilder<CartBloc, CartState>(builder: (context, state) {
-          if (state is Success) {
-            return InkWell(
-              onTap: () {},
-              child: Container(
-                height: 50,
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: kPrimary, borderRadius: BorderRadius.circular(20)),
-                child: const Center(
-                  child: Text(
-                    'Continue To Pay',
-                    style: TextStyle(color: kWhite, fontSize: 16),
-                  ),
-                ),
-              ),
+        floatingActionButton: InkWell(
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              Routes.payment,
+              arguments: total
             );
-          }
-          return const SizedBox.shrink();
-        }));
+          },
+          child: Container(
+            height: 50,
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: kPrimary, borderRadius: BorderRadius.circular(20)),
+            child: const Center(
+              child: Text(
+                'Continue To Pay',
+                style: TextStyle(color: kWhite, fontSize: 16),
+              ),
+            ),
+          ),
+        ));
   }
 
-  void getData() {
-    BlocProvider.of<CartBloc>(context).add(GetCart());
-  }
-}
-
-class TotalWidget extends StatelessWidget {
-  Map<String, List<Item>> cartItem;
-
-  TotalWidget(this.cartItem, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    var subtotal = 0.0;
-    for (var v in cartItem.values) {
-      subtotal += v.length * v.first.price;
-    }
-    var total = 0.0;
-    const serviceFee = 500;
-    const deliverCharge = 1500;
-    total = subtotal + serviceFee + deliverCharge;
+  Widget totalWidget(BuildContext context) {
+    total = subTotal + serviceFee + deliverCharge;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -155,24 +145,18 @@ class TotalWidget extends StatelessWidget {
             children: [
               const Text(
                 "Sub Total",
-                style: TextStyle(
-                  color: kBlack,
-                  fontSize: 16
-                ),
+                style: TextStyle(color: kBlack, fontSize: 16),
               ),
-              Text("$subtotal ks")
+              Text("$subTotal ks")
             ],
           ),
-         const SizedBox(height: 4),
-         const Row(
+          const SizedBox(height: 4),
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Service Fee",
-                style: TextStyle(
-                    color: kBlack,
-                    fontSize: 16
-                ),
+                style: TextStyle(color: kBlack, fontSize: 16),
               ),
               Text("$serviceFee ks")
             ],
@@ -183,35 +167,32 @@ class TotalWidget extends StatelessWidget {
             children: [
               Text(
                 "Delivery Charge",
-                style: TextStyle(
-                    color: kBlack,
-                    fontSize: 16
-                ),
+                style: TextStyle(color: kBlack, fontSize: 16),
               ),
               Text("$deliverCharge ks")
             ],
           ),
-         const  SizedBox(height: 4),
+          const SizedBox(height: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
                 "Total",
-                style: TextStyle(
-                    color: kBlack,
-                    fontSize: 16
-                ),
+                style: TextStyle(color: kBlack, fontSize: 16),
               ),
               Text("$total ks")
             ],
           ),
         ],
       ),
-    )
-    .addPadding(edgeInsets: const EdgeInsets.all(14))
-        .addRoundCornerWidget(margin: const EdgeInsets.symmetric(vertical: 18,horizontal: 14),
+    ).addPadding(edgeInsets: const EdgeInsets.all(14)).addRoundCornerWidget(
+        margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 14),
         borderRadius: BorderRadius.circular(14),
-    color: kGrey300);
+        color: kGrey300);
+  }
+
+  void getData() {
+    BlocProvider.of<CartBloc>(context).add(GetCart());
   }
 }
 
