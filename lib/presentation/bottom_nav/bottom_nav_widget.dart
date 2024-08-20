@@ -8,6 +8,7 @@ import 'package:pico_user/presentation/inbox/inbox_page.dart';
 import 'package:badges/badges.dart' as badges;
 
 import '../all_item/all_item_page.dart';
+import '../profile/profile_page.dart';
 import '../route/routes.dart';
 import 'nav_bar.dart';
 import 'package:pico_user/di/injection_container.dart' as di;
@@ -70,8 +71,9 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
     const HomePage(),
     const AllItemPage(),
     const InboxPage(),
-    const HomePage(),
+    const ProfilePage(),
   ];
+
   @override
   void initState() {
     super.initState();
@@ -103,48 +105,46 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
             Routes.cart,
           );
         },
-        child: BlocBuilder<CartBloc, CartState>(
-            builder: (context, state) {
-              var showBadge = false;
-              int count = 0;
-              if(state is Success){
-                showBadge = true;
-                for (var value in state.cart.values) {
-                  count += value.length;
-                }
-                return badges.Badge(
-                  position: badges.BadgePosition.custom(top: -7, end: -7),
-                  showBadge: showBadge,
-                  badgeStyle: const badges.BadgeStyle(
-                      padding: EdgeInsets.all(7), badgeColor: Colors.white),
-                  badgeContent: Text(
-                    count.toString(),
-                    style: const TextStyle(color: Colors.green, fontSize: 12.0),
-                  ),
-                  child: FloatingActionButton(
-                      onPressed: null,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 2, color: kPrimary),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: const Icon(
-                        Icons.shopping_cart,
-                        color: kWhite,
-                      )),
-                );
-              }
-                return FloatingActionButton(
-                    onPressed: null,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 2, color: kPrimary),
-                        borderRadius: BorderRadius.circular(30)),
-                    child: const Icon(
-                      Icons.shopping_cart,
-                      color: kWhite,
-                    ));
-
-            }),
+        child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+          var showBadge = false;
+          int count = 0;
+          if (state is Success) {
+            showBadge = true;
+            for (var value in state.cart.values) {
+              count += value.length;
+            }
+            return badges.Badge(
+              position: badges.BadgePosition.custom(top: -7, end: -7),
+              showBadge: showBadge,
+              badgeStyle: const badges.BadgeStyle(
+                  padding: EdgeInsets.all(7), badgeColor: Colors.white),
+              badgeContent: Text(
+                count.toString(),
+                style: const TextStyle(color: Colors.green, fontSize: 12.0),
+              ),
+              child: FloatingActionButton(
+                  onPressed: null,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 2, color: kPrimary),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: const Icon(
+                    Icons.shopping_cart,
+                    color: kWhite,
+                  )),
+            );
+          }
+          return FloatingActionButton(
+              onPressed: null,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(width: 2, color: kPrimary),
+                  borderRadius: BorderRadius.circular(30)),
+              child: const Icon(
+                Icons.shopping_cart,
+                color: kWhite,
+              ));
+        }),
       ),
       body: pages[navbarIndex],
     );

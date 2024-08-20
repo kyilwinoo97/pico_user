@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
@@ -43,7 +44,7 @@ class InboxItem extends StatelessWidget{
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(120.0),
-          child: Image.asset("$category/fruit.png",height: 45,),
+          child: Icon(Icons.notifications_active,color: kPrimary,size: 35,),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +70,7 @@ class InboxItem extends StatelessWidget{
       ],
     )
         .addPadding(edgeInsets: const EdgeInsets.symmetric(vertical: 4))
-        .addRoundCornerWidget(margin: const EdgeInsets.all(1.5), borderRadius:
+        .addRoundCornerWidget(margin: const EdgeInsets.symmetric(vertical: 4,horizontal: 12), borderRadius:
         BorderRadius.circular(4.0),
         color: (index < 4) ? Colors.grey.shade200: Colors.white);
   }
