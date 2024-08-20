@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pico_user/presentation/configs/configs.dart';
 import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 
+import '../../widgets/Utils.dart';
+import '../cart/bloc/cart_bloc.dart';
 import '../configs/constant_colors.dart';
+import '../route/routes.dart';
 
 class SelectPayment extends StatefulWidget {
   Object? data;
@@ -15,6 +19,7 @@ class SelectPayment extends StatefulWidget {
 
 class _SelectPaymentState extends State<SelectPayment> {
   var groupValue = -1;
+
   @override
   Widget build(BuildContext context) {
     var total = widget.data as double;
@@ -51,7 +56,16 @@ class _SelectPaymentState extends State<SelectPayment> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: InkWell(
-        onTap: () {},
+        onTap: () {
+          Utils.successDialog(context, "Success", "Successfully order")
+              .then((value) {
+            if (value != null) {
+              BlocProvider.of<CartBloc>(context).add(ClearCart());
+              Navigator.pushNamedAndRemoveUntil(
+                  context, Routes.nav, (Route<dynamic> route) => false);
+            }
+          });
+        },
         child: Container(
           height: 50,
           margin: const EdgeInsets.all(10),
@@ -79,24 +93,23 @@ class _SelectPaymentState extends State<SelectPayment> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: const Image(
-                  image: AssetImage("$payment/kbzpayicon.jpg"),
-                  height: 70,
-                  width: 70,
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: const Image(
+                    image: AssetImage("$payment/kbzpayicon.jpg"),
+                    height: 70,
+                    width: 70,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 14,
-              ),
-              Text("KBZ Pay", style: context.titleExtraSmall)
-            ],),
-            Radio(
-                value: 0,
-                groupValue: groupValue,
-                onChanged: onChange)
+                const SizedBox(
+                  width: 14,
+                ),
+                Text("KBZ Pay", style: context.titleExtraSmall)
+              ],
+            ),
+            Radio(value: 0, groupValue: groupValue, onChanged: onChange)
           ],
         ).addPadding(edgeInsets: const EdgeInsets.all(6)).addRoundCornerWidget(
             margin: const EdgeInsets.all(8),
@@ -105,24 +118,23 @@ class _SelectPaymentState extends State<SelectPayment> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: const Image(
-                  image: AssetImage("$payment/wave(512).jpg"),
-                  height: 65,
-                  width: 65,
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: const Image(
+                    image: AssetImage("$payment/wave(512).jpg"),
+                    height: 65,
+                    width: 65,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 14,
-              ),
-              Text("Wave Money", style: context.titleExtraSmall)
-            ],),
-            Radio(
-                value: 1,
-                groupValue: groupValue,
-                onChanged: onChange)
+                const SizedBox(
+                  width: 14,
+                ),
+                Text("Wave Money", style: context.titleExtraSmall)
+              ],
+            ),
+            Radio(value: 1, groupValue: groupValue, onChanged: onChange)
           ],
         ).addPadding(edgeInsets: const EdgeInsets.all(6)).addRoundCornerWidget(
             margin: EdgeInsets.all(8),
@@ -131,24 +143,23 @@ class _SelectPaymentState extends State<SelectPayment> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: const Image(
-                  image: AssetImage("$payment/truemoney.jpg"),
-                  height: 65,
-                  width: 65,
+            Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: const Image(
+                    image: AssetImage("$payment/truemoney.jpg"),
+                    height: 65,
+                    width: 65,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 14,
-              ),
-              Text("Wave Money", style: context.titleExtraSmall)
-            ],),
-            Radio(
-                value: 2,
-                groupValue: groupValue,
-                onChanged: onChange)
+                const SizedBox(
+                  width: 14,
+                ),
+                Text("Wave Money", style: context.titleExtraSmall)
+              ],
+            ),
+            Radio(value: 2, groupValue: groupValue, onChanged: onChange)
           ],
         ).addPadding(edgeInsets: const EdgeInsets.all(6)).addRoundCornerWidget(
             margin: EdgeInsets.all(8),
@@ -158,13 +169,9 @@ class _SelectPaymentState extends State<SelectPayment> {
     ).addPadding(edgeInsets: const EdgeInsets.symmetric(horizontal: 12));
   }
 
-
-
   Widget cashPayment() {
     var selectedRadio = 0;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Cash",
         style: context.titleExtraSmall,
@@ -174,24 +181,21 @@ class _SelectPaymentState extends State<SelectPayment> {
         children: [
           Row(
             children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: const Image(
-                image: AssetImage("$payment/cash.png"),
-                height: 70,
-                width: 70,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15.0),
+                child: const Image(
+                  image: AssetImage("$payment/cash.png"),
+                  height: 70,
+                  width: 70,
+                ),
               ),
-            ),
-            const SizedBox(
-              width: 14,
-            ),
-            Text("Cash on Delivery", style: context.titleExtraSmall)
-          ],),
-          Radio(
-              value: 3,
-              groupValue: groupValue,
-              onChanged: onChange)
-
+              const SizedBox(
+                width: 14,
+              ),
+              Text("Cash on Delivery", style: context.titleExtraSmall)
+            ],
+          ),
+          Radio(value: 3, groupValue: groupValue, onChanged: onChange)
         ],
       ).addPadding(edgeInsets: const EdgeInsets.all(6)).addRoundCornerWidget(
           margin: const EdgeInsets.all(8),
@@ -201,8 +205,8 @@ class _SelectPaymentState extends State<SelectPayment> {
   }
 
   void onChange(int? value) {
-      setState(() {
-        groupValue = value!;
-      });
+    setState(() {
+      groupValue = value!;
+    });
   }
 }

@@ -15,6 +15,7 @@ class CartBloc extends Bloc<CartEvent,CartState>{
     on<AddToCart>(_addToCart);
     on<RemoveFromCart>(_removeFromCart);
     on<GetCart>(_getAllData);
+    on<ClearCart>(_clearAllData);
   }
 
 
@@ -61,5 +62,15 @@ class CartBloc extends Bloc<CartEvent,CartState>{
       return;
     }
     emit(Success(cart));
+  }
+
+  FutureOr<void> _clearAllData(ClearCart event, Emitter<CartState> emit) async{
+     emit(const Loading());
+     cart.clear();
+     if(cart.isEmpty){
+       emit(Empty(cart));
+       return;
+     }
+     emit(const Failure());
   }
 }

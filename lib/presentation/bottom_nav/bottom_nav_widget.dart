@@ -109,7 +109,9 @@ class _BottomNavWidgetState extends State<BottomNavWidget> {
               int count = 0;
               if(state is Success){
                 showBadge = true;
-                count = state.cart.length;
+                for (var value in state.cart.values) {
+                  count += value.length;
+                }
                 return badges.Badge(
                   position: badges.BadgePosition.custom(top: -7, end: -7),
                   showBadge: showBadge,
