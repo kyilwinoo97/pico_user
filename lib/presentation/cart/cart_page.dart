@@ -9,6 +9,7 @@ import 'package:pico_user/presentation/utils/extensions/extensions.dart';
 
 import '../configs/constant_colors.dart';
 import '../detail/item_detail.dart';
+import '../route/routes.dart';
 
 class CartPage extends StatefulWidget{
   const CartPage({super.key});
@@ -46,24 +47,27 @@ class _CartPageState extends State<CartPage> {
         builder: (context,state){
           if(state is Success){
             cartItem = state.cart;
-            return  Column(
-              children: [
-                ListView.builder(
-                  itemCount: cartItem.length,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var keys = cartItem.keys.toList();
-                    var data = cartItem[keys[index]];
-                    if(data != null && data.isNotEmpty){
-                      return CartItem(data);
-                    }
-                      return const SizedBox.shrink();
+            return Container(
+              margin: const EdgeInsets.only(bottom: 80),
+              child: ListView(
+                children: [
+                  ListView.builder(
+                    itemCount: cartItem.length,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var keys = cartItem.keys.toList();
+                      var data = cartItem[keys[index]];
+                      if(data != null && data.isNotEmpty){
+                        return CartItem(data);
+                      }
+                        return const SizedBox.shrink();
 
-                  },
-                )
-              ],
+                    },
+                  )
+                ],
+              ),
             );
           }else if (state is Loading){
             return Center(child: CircularProgressIndicator(color: kPrimary,),);
@@ -85,7 +89,12 @@ class _CartPageState extends State<CartPage> {
     builder: (context,state){
       if(state is Success){
         return  InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.pushNamed(
+              context,
+              Routes.order,
+            );
+          },
           child: Container(
             height: 50,
             margin: const EdgeInsets.all(10),
@@ -109,7 +118,6 @@ class _CartPageState extends State<CartPage> {
 
   void getData() {
     BlocProvider.of<CartBloc>(context).add(GetCart());
-
   }
 }
 

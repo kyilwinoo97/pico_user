@@ -11,7 +11,7 @@ part 'cart_state.dart';
 class CartBloc extends Bloc<CartEvent,CartState>{
   Map<String,List<Item>> cart = {};
 
-  CartBloc() : super(InitialState()) {
+   CartBloc() : super( InitialState()) {
     on<AddToCart>(_addToCart);
     on<RemoveFromCart>(_removeFromCart);
     on<GetCart>(_getAllData);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pico_user/presentation/bottom_nav/bottom_nav_widget.dart';
 import 'package:pico_user/presentation/cart/cart_page.dart';
+import 'package:pico_user/presentation/confirm_order/confirm_order.dart';
 import 'package:pico_user/presentation/detail/item_detail.dart';
 import '../all_item/all_item_page.dart';
 import '../home/home_page.dart';
@@ -13,7 +14,6 @@ class RouteGen {
     switch (settings.name) {
       case Routes.nav:
         return _buildRoute(const BottomNavWidget(),settings: settings);
-
       case Routes.home:
         return _buildRoute(const HomePage(), settings: settings);
       case Routes.allItem:
@@ -22,6 +22,8 @@ class RouteGen {
         return _buildRoute(const ItemDetail(),settings: settings);
       case Routes.cart:
         return _buildRoute( const CartPage(),settings: settings);
+      case Routes.order:
+        return _buildRoute( const ConfirmOrder(),settings: settings);
       default:
         return _buildRoute(const ErrorView(), settings: settings);
     }
@@ -41,6 +43,7 @@ class Routes {
   static const cart = "/cart";
   static const detail = "/detail";
   static const allItem = "/allItem";
+  static const order = "/order";
 }
 
 class ErrorView extends StatelessWidget {
